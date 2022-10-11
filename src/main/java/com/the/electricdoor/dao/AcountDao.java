@@ -25,7 +25,6 @@ public class AcountDao {
 			@Override
 			public Acount mapRow(ResultSet arg0, int arg1) throws SQLException {
 				Acount acount = new Acount();
-                
                 acount.setAcount_name(arg0.getString("acount_name"));
                 acount.setAcount_password(arg0.getString("acount_password"));
                 acount.setNick_name(arg0.getString("nick_name"));

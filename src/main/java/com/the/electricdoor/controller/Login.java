@@ -3,21 +3,21 @@ package com.the.electricdoor.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.the.electricdoor.dto.LoginDto;
 import com.the.electricdoor.service.UserService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class Login {
 
     @Autowired
     UserService userService;
     
-    @PostMapping("/login")
-    @ResponseBody
+    @PostMapping()
     public LoginDto login(String user_name, String passwd){
 
         boolean rs = userService.login(user_name, passwd);
@@ -43,8 +43,7 @@ public class Login {
     
 
 
-    @PostMapping("/test")
-    @ResponseBody
+    @PostMapping("/login/test")
     public String test(){
         return "test";
     }

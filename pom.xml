@@ -56,6 +56,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<!--		用于实体类的注解，自动生成get，set方法，自动生成无参全参构造函数等-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--mybatis-plus ORM框架，简化数据库连接-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+
+		<!--hutool 各种实用工具类-->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.8.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
