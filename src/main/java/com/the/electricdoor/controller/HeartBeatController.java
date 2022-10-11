@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/heartbeat")
 public class HeartBeatController {
-    private HeartBeatService heartBeatService;
     @Autowired
-    public void setHeartBeatService(HeartBeatService heartBeatService){
-        this.heartBeatService = heartBeatService;
-    }
+    private HeartBeatService heartBeatService;
     @PostMapping
     public ResponseUtils heartbeat(@RequestBody HeartBeat heartBeat){
         /**判断token是否为空*/
