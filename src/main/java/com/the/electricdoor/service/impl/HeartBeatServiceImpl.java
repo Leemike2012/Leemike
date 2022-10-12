@@ -3,13 +3,7 @@ package com.the.electricdoor.service.impl;
 import com.the.electricdoor.service.HeartBeatService;
 import org.springframework.stereotype.Service;
 
-/**
- * @ClassName:HeartBeatServiceImpl
- * @Description:TODO
- * @Author:Yang
- * @Date:2022-10-11
- * @Version:1.0
- **/
+
 @Service
 public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
