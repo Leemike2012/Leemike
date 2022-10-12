@@ -16,7 +16,7 @@ public class PathInterceptorConfig implements WebMvcConfigurer{
         //忽略的路径
         String[] excludePathPatterns = {
                 "/login",
-                "/test"
+                "/heartbeat"
         };
 
         registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePathPatterns);

@@ -3,7 +3,6 @@ package com.the.electricdoor.controller;
 import cn.hutool.core.util.StrUtil;
 import com.the.electricdoor.Entity.HeartBeat;
 import com.the.electricdoor.service.HeartBeatService;
-import com.the.electricdoor.utils.ErrorEnums;
 import com.the.electricdoor.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/heartbeat")
 public class HeartBeatController {
-    private HeartBeatService heartBeatService;
     @Autowired
-    public void setHeartBeatService(HeartBeatService heartBeatService){
-        this.heartBeatService = heartBeatService;
-    }
+    private HeartBeatService heartBeatService;
     @PostMapping
     public ResponseUtils heartbeat(@RequestBody HeartBeat heartBeat){
         /**判断token是否为空*/
