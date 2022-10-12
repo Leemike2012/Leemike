@@ -3,13 +3,7 @@ package com.the.electricdoor.service.impl;
 import com.the.electricdoor.service.HeartBeatService;
 import org.springframework.stereotype.Service;
 
-/**
- * @ClassName:HeartBeatServiceImpl
- * @Description:TODO
- * @Author:Yang
- * @Date:2022-10-11
- * @Version:1.0
- **/
+
 @Service
 public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
@@ -25,5 +19,30 @@ public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
     public Boolean checkMd5Signature(String md5Signature) {
         return true;
+    }
+
+    @Override
+    public Boolean checkTimestamp(String timestamp) {
+        return null;
+    }
+
+    @Override
+    public String createToken() {
+        return "ABC";
+    }
+
+    @Override
+    public Integer saveToken(String token, String hotel, String room) {
+        return null;
+    }
+
+    @Override
+    public String getToken(String hotel, String room) {
+        return null;
+    }
+
+    @Override
+    public Integer updateTimestamp(String hotel, String room) {
+        return null;
     }
 }
