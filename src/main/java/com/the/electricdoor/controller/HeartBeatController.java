@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class HeartBeatController {
     @Autowired
     private HeartBeatService heartBeatService;
+
     @PostMapping
     public ResponseUtils queryById(@RequestBody HeartBeat heartBeat){
         /**判断token是否为空*/

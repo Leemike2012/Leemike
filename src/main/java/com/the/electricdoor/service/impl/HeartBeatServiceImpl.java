@@ -3,7 +3,6 @@ package com.the.electricdoor.service.impl;
 import com.the.electricdoor.service.HeartBeatService;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
