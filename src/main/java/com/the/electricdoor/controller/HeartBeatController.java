@@ -15,7 +15,7 @@ public class HeartBeatController {
     private HeartBeatService heartBeatService;
 
     @PostMapping
-    public ResponseUtils queryById(@RequestBody HeartBeat heartBeat){
+    public ResponseUtils queryById(@RequestBody HeartBeat heartBeat)  throws ParseException {
         /**判断token是否为空*/
         if (StrUtil.isNotBlank(heartBeat.getToken())){
             /**首次心跳请求流程*/

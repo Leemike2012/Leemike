@@ -2,6 +2,8 @@ package com.the.electricdoor.service;
 
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+
 @Service
 public interface HeartBeatService {
    
