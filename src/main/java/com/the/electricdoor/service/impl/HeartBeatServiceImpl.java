@@ -10,14 +10,17 @@ public class HeartBeatServiceImpl implements HeartBeatService {
 
     @Override
     public String getSecretKey(String hotel, String room) {
+        //拼接旅店Id+房间id
         String hotelRoom = hotel+room;
+        //根据拼接后数据获取该条lockerKey记录
         LockerKey lockerKey = lockerKeyMapper.getDataByHotelRoom(hotelRoom);
         if (lockerKey==null){
+            //数据获取为空,返回null值交由controller判断（其实应直接做抛出异常处理，由统一异常捕获器捕获）
             return null;
         }else {
+            //数据不为空，则返回key值
             return lockerKey.getKey();
         }
-    }
     }
 
     @Override
@@ -48,19 +51,30 @@ public class HeartBeatServiceImpl implements HeartBeatService {
     }
     @Override
     public String createToken() {
-        return "ABC";
+        return UUID.randomUUID().toString();
     }
-
+    //保存token，旅店房间号，timestamp
     @Override
     public Integer saveToken(String token, String hotel, String room) {
-        return null;
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = sdf.format(now);
+        String hotel_room = hotel+room;
+        return lockerKeyMapper.updateData(hotel_room,token,timestamp);
     }
-
+    //获取token
     @Override
     public String getToken(String hotel, String room) {
-        return null;
+        String hotel_room = hotel+room;
+        LockerKey lockerKey = lockerKeyMapper.getDataByHotelRoom(hotel_room);
+        if (lockerKey!=null){
+            return lockerKey.getToken();
+        }else {
+            return null;
+        }
     }
 
+    //废弃
     @Override
     public Integer updateTimestamp(String hotel, String room) {
         return null;
