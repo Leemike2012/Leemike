@@ -2,20 +2,24 @@ package com.the.electricdoor.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.the.electricdoor.Entity.HeartBeat;
+import com.the.electricdoor.Entity.LockerKey;
 import com.the.electricdoor.service.HeartBeatService;
 import com.the.electricdoor.utils.ErrorEnums;
 import com.the.electricdoor.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
+
 @RestController
 @RequestMapping("/heartbeat")
 public class HeartBeatController {
     @Autowired
     private HeartBeatService heartBeatService;
-
+    
     @PostMapping
-    public ResponseUtils queryById(@RequestBody HeartBeat heartBeat)  throws ParseException {
+    public ResponseUtils queryById(@RequestBody HeartBeat heartBeat) throws ParseException {
         /**判断token是否为空*/
         if (StrUtil.isNotBlank(heartBeat.getToken())){
             /**首次心跳请求流程*/
@@ -25,14 +29,14 @@ public class HeartBeatController {
             /**2.根据签名规则, 用请求提供的参数和从缓存中拿到的密钥, 生成md5签名. */
             String md5 = heartBeatService.md5SignatureCreate(secretKey);
             /**3.校验md5签名，如果服务端签名和请求中的签名一致, 继续往下执行逻辑. 不一致则结束处理*/
-            if (heartBeatService.checkMd5Signature(md5)){
+            if (heartBeatService.checkMd5Signature(md5,heartBeat.getHotel(),heartBeat.getRoom())){
                 /**校验Md5签名成功*/
                 /**4.请求的时间戳参数和当前时间比对*/
                 if(heartBeatService.checkTimestamp(heartBeat.getTimestamp())){
                     /**时间戳校验成功*/
                     /**5.随机成成UUID作为Token，范围给门锁*/
                     String token = heartBeatService.createToken();
-                    /**6.token存入数据库*/
+                    /**6.token存入数据库，同时存入时间等*/
                     heartBeatService.saveToken(token,heartBeat.getHotel(),heartBeat.getRoom());
                     /**7.返回token给门锁*/
                     return ResponseUtils.success(token);
@@ -60,7 +64,7 @@ public class HeartBeatController {
             /**2.根据签名规则, 用请求提供的参数和从缓存中拿到的密钥, 生成md5签名. */
             String md5 = heartBeatService.md5SignatureCreate(secretKey);
             /**3.校验md5签名，如果服务端签名和请求中的签名一致, 继续往下执行逻辑. 不一致则结束处理*/
-            if (heartBeatService.checkMd5Signature(md5)){
+            if (heartBeatService.checkMd5Signature(md5,heartBeat.getHotel(),heartBeat.getRoom())){
                 /**校验Md5签名成功*/
                 /**4.请求的时间戳参数和当前时间比对*/
                 if(heartBeatService.checkTimestamp(heartBeat.getTimestamp())){

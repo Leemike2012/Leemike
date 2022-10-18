@@ -23,14 +23,23 @@ public class HeartBeatServiceImpl implements HeartBeatService {
         }
     }
 
+
     @Override
     public String md5SignatureCreate(String secretKey) {
-        return null;
+        String md5Signature = DigestUtils.md5DigestAsHex(secretKey.getBytes(StandardCharsets.UTF_8));
+        return md5Signature;
     }
 
     @Override
-    public Boolean checkMd5Signature(String md5Signature) {
-        return true;
+    public Boolean checkMd5Signature(String md5Signature,String hotel,String room) {
+        String hotelRoom = hotel+room;
+        //取出缓存中的md5值
+        String md5 = lockerKeyMapper.getMd5ByHotelRoom(hotelRoom);
+        if (md5Signature.equals(md5)){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override

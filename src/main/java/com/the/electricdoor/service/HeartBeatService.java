@@ -11,7 +11,7 @@ public interface HeartBeatService {
 
     String md5SignatureCreate(String secretKey);
 
-    Boolean checkMd5Signature(String md5Signature);
+    Boolean checkMd5Signature(String md5Signature,String hotel,String room);
 
     Boolean checkTimestamp(String timestamp);
 
