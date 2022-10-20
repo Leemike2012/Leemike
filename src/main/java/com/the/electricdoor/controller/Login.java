@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.the.electricdoor.dto.LoginDto;
 import com.the.electricdoor.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

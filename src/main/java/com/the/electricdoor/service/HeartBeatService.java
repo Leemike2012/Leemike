@@ -1,8 +1,11 @@
 package com.the.electricdoor.service;
 
+import com.the.electricdoor.Entity.HeartBeat;
+import com.the.electricdoor.utils.Tokenreturn;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+
 
 @Service
 public interface HeartBeatService {
@@ -23,5 +26,9 @@ public interface HeartBeatService {
     String getToken(String hotel,String room);
 
     Integer updateTimestamp(String hotel,String room);
+
+    Tokenreturn initialHeartbeatProcess(HeartBeat heartBeat) throws ParseException;
+
+    Tokenreturn regularHeartbeatProcess(HeartBeat heartBeat) throws ParseException;
 
 }
