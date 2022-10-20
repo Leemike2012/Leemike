@@ -1,7 +1,17 @@
 package com.the.electricdoor.service.impl;
 
+import com.the.electricdoor.Entity.LockerKey;
+import com.the.electricdoor.mapper.LockerKeyMapper;
 import com.the.electricdoor.service.HeartBeatService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class HeartBeatServiceImpl implements HeartBeatService {
@@ -23,7 +33,6 @@ public class HeartBeatServiceImpl implements HeartBeatService {
         }
     }
 
-
     @Override
     public String md5SignatureCreate(String secretKey) {
         String md5Signature = DigestUtils.md5DigestAsHex(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -33,7 +42,6 @@ public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
     public Boolean checkMd5Signature(String md5Signature,String hotel,String room) {
         String hotelRoom = hotel+room;
-        //取出缓存中的md5值
         String md5 = lockerKeyMapper.getMd5ByHotelRoom(hotelRoom);
         if (md5Signature.equals(md5)){
             return true;
@@ -41,7 +49,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
             return false;
         }
     }
-
+    
     @Override
     public Boolean checkTimestamp(String timestamp) throws ParseException {
         Date now =  new Date();
@@ -58,11 +66,12 @@ public class HeartBeatServiceImpl implements HeartBeatService {
             return false;
         }
     }
+    
     @Override
     public String createToken() {
         return UUID.randomUUID().toString();
     }
-    //保存token，旅店房间号，timestamp
+
     @Override
     public Integer saveToken(String token, String hotel, String room) {
         Date now = new Date();
@@ -71,7 +80,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
         String hotel_room = hotel+room;
         return lockerKeyMapper.updateData(hotel_room,token,timestamp);
     }
-    //获取token
+
     @Override
     public String getToken(String hotel, String room) {
         String hotel_room = hotel+room;
@@ -89,3 +98,4 @@ public class HeartBeatServiceImpl implements HeartBeatService {
         return null;
     }
 }
+

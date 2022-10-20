@@ -13,7 +13,7 @@ public interface HeartBeatService {
 
     Boolean checkMd5Signature(String md5Signature,String hotel,String room);
 
-    Boolean checkTimestamp(String timestamp);
+    Boolean checkTimestamp(String timestamp) throws ParseException;
 
     
     String createToken();
