@@ -73,7 +73,9 @@ public class ImageExperiments {
                 int r = (pixel >> 16) & 0xff;
                 int g = (pixel >> 8) & 0xff;
                 int b = pixel & 0xff;
-                Color color = new Color((int)(r*0.3),(int)(g*0.59),(int)(b*0.11));
+                int grey = (int) (0.3 * r + 0.59 * g + 0.11 * b);
+                Color color = new Color(grey, grey, grey);
+
                 image.setRGB(i,j,color.getRGB());
             }
         }
