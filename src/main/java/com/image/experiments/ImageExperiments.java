@@ -17,6 +17,10 @@ public class ImageExperiments {
         ix.ColorToGrey(path+imageName);
         //3.图像按百分⽐缩放
         ix.ImageZoom(path+imageName,0.1);
+        //4-1.图像左右翻转
+        ix.MirrorImage(path+imageName);
+        //4-2.图像上下翻转
+        ix.ReverseImage(path+imageName);
     }
     public void RGBMethod(String imagePath) throws IOException {
         BufferedImage imageR = ImageIO.read(new File(imagePath));
@@ -81,6 +85,38 @@ public class ImageExperiments {
         }
         ImageIO.write(image, "png", new File(path+"diablo-Grey.png"));
     }
+    public void MirrorImage(String imagePath) throws IOException {
+        BufferedImage imageV = ImageIO.read(new File(imagePath));
+        //获取图像长宽
+        int width = imageV.getWidth();
+        int height = imageV.getHeight();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0, b = width - 1; j < b; j++, b--) {
+                int pl = imageV.getRGB(j, i);
+                int pr = imageV.getRGB(b, i);
+                imageV.setRGB(j, i, pr);
+                imageV.setRGB(b, i, pl);
+                
+            }
+        }  
+        ImageIO.write(imageV, "png", new File(path+"diablo-LRreverse.png"));
+    }
+    public void ReverseImage(String imagePath) throws IOException {
+        BufferedImage imageRe = ImageIO.read(new File(imagePath));
+        //获取图像长宽
+        int width = imageRe.getWidth();
+        int height = imageRe.getHeight();
+        for (int i = 0; i < width; i++) {
+            for (int t = 0, b = height - 1;t < b; t++, b--) {
+                int pt = imageRe.getRGB(i, t);
+                int pb = imageRe.getRGB(i, b);
+                imageRe.setRGB(i, t, pb);
+                imageRe.setRGB(i, b, pt); 
+            }
+        } 
+        ImageIO.write(imageRe, "png", new File(path+"diablo-UDreverse.png"));
+    }
+    
     public void ImageZoom(String imagePath,Double proportion) throws IOException {
         BufferedImage image = ImageIO.read(new File(imagePath));
         //获取图像长宽
