@@ -23,6 +23,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
 
     @Override
     public Tokenreturn initialHeartbeatProcess(HeartBeat heartBeat) throws ParseException {
+        
         /**1、根据旅店uuid和房间号, 从缓存中拿到密钥: `hget 旅店uuid+房间号 key` (如果用uuid和房间号定位不到房间数据, 则认为是恶意攻击)*/
         String secretKey = getSecretKey(heartBeat.getHotel(),heartBeat.getRoom());
         /**2.根据签名规则, 用请求提供的参数和从缓存中拿到的密钥, 生成md5签名. */
@@ -33,9 +34,9 @@ public class HeartBeatServiceImpl implements HeartBeatService {
             /**4.请求的时间戳参数和当前时间比对*/
             if(checkTimestamp(heartBeat.getTimestamp())){
                 /**时间戳校验成功*/
-                /**5.随机成成UUID作为Token，范围给门锁*/
+                /**5.随机生成UUID作为Token，范围给门锁*/
                 String token = createToken();
-                /**6.token存入数据库，同时存入时间等*/
+                /**6.token存入数据库，用于循环发送请求校验，同时存入时间等*/
                 saveToken(token,heartBeat.getHotel(),heartBeat.getRoom());
                 /**7.返回token给门锁*/
                 return Tokenreturn.success(token);
@@ -69,7 +70,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
             /**4.请求的时间戳参数和当前时间比对*/
             if(checkTimestamp(heartBeat.getTimestamp())){
                 /**时间戳校验成功*/
-                /**5.根据hotel和room取出token*/
+                /**5.因为首次已经生成token，并且存入了数据库，所以能根据hotel和room取出token*/
                 String token = getToken(heartBeat.getHotel(), heartBeat.getRoom());
                 /**6.取出的token和请求中的token进行比对*/
                 if (token.equals(heartBeat.getToken())){
@@ -118,6 +119,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
     @Override
     public String md5SignatureCreate(String secretKey) {
         String md5Signature = DigestUtils.md5DigestAsHex(secretKey.getBytes(StandardCharsets.UTF_8));
+        //规则未知所以自己写了
         return md5Signature;
     }
 
@@ -141,7 +143,7 @@ public class HeartBeatServiceImpl implements HeartBeatService {
         long longNow = now.getTime();
         long longParamTime = paramTime.getTime();
         int diff = (int) ((longNow - longParamTime) / 1000);
-        //差值在5000以内，true
+        //差值在5000以内，true，随便写的
         if (diff<5000){
             return true;
         }else {

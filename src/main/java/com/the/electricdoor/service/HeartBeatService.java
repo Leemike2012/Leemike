@@ -28,6 +28,7 @@ public interface HeartBeatService {
     Integer updateTimestamp(String hotel,String room);
 
     Tokenreturn initialHeartbeatProcess(HeartBeat heartBeat) throws ParseException;
+    //接口类，先定义
 
     Tokenreturn regularHeartbeatProcess(HeartBeat heartBeat) throws ParseException;
 
