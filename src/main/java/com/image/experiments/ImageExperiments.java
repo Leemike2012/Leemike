@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class ImageExperiments {
     public static String path = "D:/Workspace/Images/";
+    //判断路径是否存在，如果不存在就报错
+    //控制台输入，最好是动态
     public static String imageName = "diablo.jpg";
     public static void main(String args[]) throws IOException {
         ImageExperiments ix = new ImageExperiments();
@@ -279,6 +281,7 @@ public class ImageExperiments {
             } else if (type == 2) {// 纵向
                 newWidth = newWidth > images[i].getWidth() ? newWidth : images[i].getWidth();
                 newHeight += images[i].getHeight();
+                //把右边操作赋值给变量
             }
         }
         if (type == 1 && newWidth < 1) {
