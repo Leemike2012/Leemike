@@ -31,6 +31,7 @@ public class ImageExperiments {
         String[] fileList = new String[]{path+"diablo-R00.png",path+"diablo-0G0.png",path+"diablo-00B.png"};
         ix.MergeImage(fileList,2);
         //8.遍历图像, 使⽤kernel来计算像素值,代替⽬标像素点
+        ix.KernelImage(path+imageName);
 
     }
     //1.把RGB三通道保留⼀个,剩下两个分别置0,并查看效果: (R,0,0),(0,G,0),(0,0,B)
@@ -250,7 +251,7 @@ public class ImageExperiments {
         
 
     
-    //7.多张图片拼接（同样大小）
+     
     public void MergeImage(String[] fileList,int type){
         int len = fileList.length;
         if (len < 1) {
@@ -313,6 +314,80 @@ public class ImageExperiments {
             throw new RuntimeException(e);
         }
     }
+
+        //8.kernel遍历图片
+        public void KernelImage(String imagePath) throws IOException {
+            BufferedImage image = ImageIO.read(new File(imagePath));
+            //获取图像长宽
+            int width = image.getWidth();
+            int height = image.getHeight();
+            //创建需要导出的图像
+            BufferedImage output = new BufferedImage(width ,height, BufferedImage.TYPE_4BYTE_ABGR);
+
+            int[][] coefficientA = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+            int[][] coefficientB = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+            //循环图片每个像素点
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    
+                    int pixel = 0;
+                    int r, g, b, r1= 0, g1 = 0, b1 = 0, r2 = 0, g2 = 0, b2 = 0, totalr = 0, totalg = 0, totalb = 0;
+                    //注意，b已经被蓝色占用
+                    //创建新遍历器，kernel
+                    for (int a = -1; a <= 1; a++) {
+                        for (int c = -1; c <= 1; c++) {
+                            int d = i + a;
+                            int e = j + c;
+                            //若遍历器格子在图片范围外则赋值为0
+                            if (d < 0 || d >= width || e < 0 || e >= height) {
+                                r = g = b = 0;
+                            //else赋值原图像素点rgb值
+                            } else {
+                                pixel = image.getRGB(d, e);
+                                r = (pixel >> 16) & 0xff;
+                                g = (pixel >> 8) & 0xff;
+                                b = pixel & 0xff;
+                            }
+                        r1 += r * coefficientA[a + 1][c + 1];
+                        g1 += g * coefficientA[a + 1][c + 1];
+                        b1 += b * coefficientA[a + 1][c + 1];
+                        r2 += r * coefficientB[a + 1][c + 1];
+                        g2 += g * coefficientB[a + 1][c + 1];
+                        b2 += b * coefficientB[a + 1][c + 1];
+                        totalr = 255-(int) Math.sqrt((r1 * r1) + (r2 * r2));
+                        totalg = 255-(int) Math.sqrt((g1 * g1) + (g2 * g2));
+                        totalb = 255-(int) Math.sqrt((b1 * b1) + (b2 * b2));
+                            if (totalr > 255) {
+                                totalr = 255;
+                            }
+                            if (totalr < 0) {
+                                totalr = 0;
+                            }
+                            if (totalg > 255) {
+                                totalg = 255;
+                            }
+                            if (totalg < 0) {
+                                totalg = 0;
+                            }
+                            if (totalb > 255) {
+                                totalb = 255;
+                            }
+                            if (totalb < 0) {
+                                totalb = 0;
+                            }
+                        }
+                    }
+                    Color color = new Color(totalr, totalg, totalb);
+                    output.setRGB(i, j, color.getRGB());
+                }
+                //输出想要的图片
+            ImageIO.write(output, "png", new File(path+"diablo-kernel.png"));
+            }
+       
+        }
 }
-        
+    
+
+
+    
     
