@@ -47,20 +47,36 @@ public class Recipe {
     public void setIngredients(String[] ingredients){
         this.ingredients=ingredients;
     }
-    /** 材料数量 */
+    /** get材料数量 */
     public Integer getNumberOfIngredients(){
         return this.numberOfIngredients;
     }
-    /** 材料数量 */
+    /** set材料数量 */
     public void setNumberOfIngredients(Integer numberOfIngredients){
         this.numberOfIngredients=numberOfIngredients;
     }
+    //无参数
+    public Recipe(){
+    }
+    //全参数
+    public Recipe(String name,String[] instructions,String[] ingredients){
+        this.name = name;
+        this.instructions = instructions;
+        this.numberOfInstructions = instructions.length;
+        this.ingredients = ingredients;
+        this.numberOfIngredients = ingredients.length;
+    }
+    //菜谱名构造
+    public Recipe(String name){
+        this.name = name;
+    }
 
-    //重写tostring方法
+    //tostring方法
     @Override
     public String toString(){
         return  "食谱-"+name+"-共需要"+numberOfInstructions+"步-共需"+numberOfIngredients+"种材料";
     }
+
 
     @Override
     public boolean equals(Object o) {
